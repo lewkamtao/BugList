@@ -7,19 +7,14 @@
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "noUnusedParameters": false,
+    "noUnusedParameters":false,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "noImplicitAny": false, // 忽略类型“({} | {}) & ({} | Record<string, any>)”上不存在属性“default”。   类型“{}”上不存在属性“default”。ts(2339)
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   },
   "include": [
@@ -27,6 +22,6 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "node_modules/*.*",
+    "src/util/format.js"
   ]
 }

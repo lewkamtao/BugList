@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Header from "./components/Header.vue";
 import { onMounted } from "vue";
-onMounted(() => {
+onMounted(() => { 
   if (!!localStorage.getItem("github_config")) {
     let github_config = JSON.parse(
       localStorage.getItem("github_config") as any
