@@ -1,20 +1,25 @@
 export interface Bug {
-  content: string;
-  create_time: string;
-  update_time: string;
-  type: string;
-  pictrue_list: Array<string>;
+  content: string
+  create_time: string
+  update_time: string
+  type: string
+  image_list: Array<Image>
+}
+
+export interface Image {
+  sha: string
+  url: string
 }
 
 export const BugOptions = [
   {
-    type: "all",
-    title: "全部",
+    type: 'all',
+    title: '全部',
     icon: `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`,
   },
   {
-    type: "pref",
-    title: "待优化",
+    type: 'pref',
+    title: '待优化',
     icon: `<svg
         viewBox="0 0 24 24"
         width="24"
@@ -34,8 +39,8 @@ export const BugOptions = [
       >`,
   },
   {
-    type: "warning",
-    title: "待修复",
+    type: 'warning',
+    title: '待修复',
     icon: `<svg
         viewBox="0 0 24 24"
         width="24"
@@ -52,8 +57,8 @@ export const BugOptions = [
       >`,
   },
   {
-    type: "danger",
-    title: "危险",
+    type: 'danger',
+    title: '危险',
     icon: `<svg
         viewBox="0 0 24 24"
         width="24"
@@ -73,13 +78,13 @@ export const BugOptions = [
       >`,
   },
   {
-    type: "fixed",
-    title: "已修复",
+    type: 'fixed',
+    title: '已修复',
     icon: `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>`,
   },
   {
-    type: "todo",
-    title: "备忘录",
+    type: 'todo',
+    title: '备忘录',
     icon: `<svg 
         viewBox="0 0 24 24"
         width="24"
@@ -96,4 +101,4 @@ export const BugOptions = [
         <line x1="17.5" y1="15" x2="9" y2="15"></line>
       </svg>`,
   },
-];
+]

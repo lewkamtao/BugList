@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import SiderBar from "../components/SiderBar.vue";
-import { LewSelect, LewTextarea } from "../components/base/index";
-import { Alert } from "../util/alert";
-import { uploadHelper } from "../util/uploadHelper";
+import SiderBar from '../components/SiderBar.vue'
+import { LewSelect, LewTextarea } from '../components/base/index'
+import { Alert } from '../util/alert'
+import { uploadHelper } from '../util/uploadHelper'
 
-import axios from "../axios/http";
-import { useRoute } from "vue-router";
-import { GithubConfig } from "../model/github_config.model";
+import axios from '../axios/http'
+import { useRoute } from 'vue-router'
+import { GithubConfig } from '../model/github_config.model'
 
-import { onMounted, ref, watch } from "vue";
-import { Bug, BugOptions } from "../model/buglist.model";
+import { onMounted, ref, watch } from 'vue'
+import { Bug, BugOptions } from '../model/buglist.model'
 
 // 获取github配置
 let github_config: GithubConfig = JSON.parse(
-  localStorage.getItem("github_config") as any
-);
+  localStorage.getItem('github_config') as any
+)
 
-const route = useRoute();
-let bug_list = ref<Bug[]>([] as any);
-let bug_option = ref();
-bug_option.value = BugOptions;
-let active_type: any = ref("");
-let upload_loading = ref<boolean[]>([]);
+const route = useRoute()
+let bug_list = ref<Bug[]>([] as any)
+let bug_option = ref()
+bug_option.value = BugOptions
+let active_type: any = ref('')
+let upload_loading = ref<boolean[]>([])
 
 let bug_group = ref({
   all: 0,
@@ -30,46 +30,46 @@ let bug_group = ref({
   danger: 0,
   fixed: 0,
   todo: 0,
-});
+})
 
 watch(
   bug_list,
   () => {
     bug_group.value = {
       all: bug_list.value.length,
-      pref: bug_list.value.filter((e) => e.type == "pref").length,
-      warning: bug_list.value.filter((e) => e.type == "warning").length,
-      danger: bug_list.value.filter((e) => e.type == "danger").length,
-      fixed: bug_list.value.filter((e) => e.type == "fixed").length,
-      todo: bug_list.value.filter((e) => e.type == "todo").length,
-    };
+      pref: bug_list.value.filter((e) => e.type == 'pref').length,
+      warning: bug_list.value.filter((e) => e.type == 'warning').length,
+      danger: bug_list.value.filter((e) => e.type == 'danger').length,
+      fixed: bug_list.value.filter((e) => e.type == 'fixed').length,
+      todo: bug_list.value.filter((e) => e.type == 'todo').length,
+    }
   },
   { deep: true, immediate: true }
-);
+)
 
 watch(route, () => {
-  active_type.value = route.params.active_type || "";
-});
+  active_type.value = route.params.active_type || ''
+})
 
-let sha = ref<string>();
+let sha = ref<string>()
 
 onMounted(() => {
-  active_type.value = route.params.active_type || "";
-  GetFolders();
-});
+  active_type.value = route.params.active_type || ''
+  GetBuglist()
+})
 
 const addBug = (type: string) => {
   bug_list.value.unshift({
-    content: "",
-    create_time: "",
-    update_time: "",
+    content: '',
+    create_time: '',
+    update_time: '',
     type: type,
-    pictrue_list: [],
-  });
-  updateBug();
-};
+    image_list: [],
+  })
+  updateBug()
+}
 
-const GetFolders = () => {
+const GetBuglist = () => {
   axios
     .get({
       url: `/repositories/${
@@ -77,26 +77,26 @@ const GetFolders = () => {
       }/contents?t=${new Date().getTime()}`,
     })
     .then((res: any) => {
-      let buglist = res.data.find((e: any) => e.name == "buglist");
+      let buglist = res.data.find((e: any) => e.name == 'buglist')
       if (!buglist) {
-        updateBug();
+        updateBug()
       } else {
-        sha.value = buglist.sha;
+        sha.value = buglist.sha
         axios
           .get({ url: `${buglist.url}&${new Date().getTime()} ` })
           .then((res: any) => {
             // 对base64转编码
             var decode = decodeURIComponent(
               escape(window.atob(res.data.content))
-            );
-            bug_list.value = JSON.parse(decode);
+            )
+            bug_list.value = JSON.parse(decode)
             if (bug_list.value.length == 0) {
-              addBug("pref");
+              addBug('pref')
             }
-          });
+          })
       }
-    });
-};
+    })
+}
 
 const updateBug = () => {
   axios
@@ -111,86 +111,117 @@ const updateBug = () => {
       },
     })
     .then((res: any) => {
-      sha.value = res.data.content.sha;
-    });
-};
+      sha.value = res.data.content.sha
+    })
+    .catch(() => {
+      GetBuglist()
+    })
+}
 
 // 监听粘贴操作
 const PasteUpload = (e: any, i: number) => {
-  const items = e.clipboardData.items; //  获取剪贴板中的数据
-  let files = [] as any;
+  const items = e.clipboardData.items //  获取剪贴板中的数据
+  let files = [] as any
   if (items.length > 0) {
     //  判断剪贴板中是否是文件
     for (let file of items) {
-      if (file.kind != "file") {
+      if (file.kind != 'file') {
         Alert({
-          type: "danger",
+          type: 'danger',
           text: `请粘贴图片文件`,
-        });
+        })
       } else {
-        let img = file.getAsFile();
-        if (img.type.indexOf("image") >= 0) {
-          files.push(img);
+        let img = file.getAsFile()
+        if (img.type.indexOf('image') >= 0) {
+          files.push(img)
         }
       }
     }
-    FormatImage(files, i);
+    FormatImage(files, i)
   }
-};
+}
 
 // 添加图片到上传列表
 const FormatImage = async (files: any, i: number) => {
-  upload_loading.value[i] = true;
+  upload_loading.value[i] = true
   files = await Promise.all(
     [...files].map((file) => {
       // 等待异步操作完成，返回执行结果
-      return uploadHelper(file);
+      return uploadHelper(file)
     })
-  );
-  Upload(files, i);
-};
+  )
+  Upload(files, i)
+}
 
 // 上传到github
 const Upload = async (files: any, i: number) => {
-  let timer = 0;
+  let timer = 0
   await Promise.all(
     files.map((e: any) => {
       return new Promise((resolve) => {
-        let filename = `${e.name}_.jpeg`;
+        let filename = `${e.name}_.jpeg`
         setTimeout(() => {
           axios
             .put({
               url: `/repos/${github_config.owner}/${github_config.repoPath}/contents/buglistImages/${filename}
           `,
               data: {
-                message: "upload a image by buglist",
+                message: 'upload a image by buglist',
                 content: e.base64data,
               },
             })
             .then((res: any) => {
-              let cdn_url = `https://cdn.jsdelivr.net/gh/${github_config.owner}/${github_config.repoPath}@master/buglistImages/${filename}`;
-              bug_list.value[i].pictrue_list.push(cdn_url);
-              resolve(200);
+              let cdn_url = `https://cdn.jsdelivr.net/gh/${github_config.owner}/${github_config.repoPath}@master/buglistImages/${filename}`
+              bug_list.value[i].image_list.push({
+                sha: res.data.content.sha,
+                url: cdn_url,
+              })
+              resolve(200)
             })
             .catch(() => {
-              upload_loading.value[i] = false;
-            });
-        }, (timer += 1000));
-      });
+              upload_loading.value[i] = false
+            })
+        }, (timer += 1000))
+      })
     })
-  );
-  upload_loading.value[i] = false;
-  updateBug();
+  )
+  upload_loading.value[i] = false
+  updateBug()
   Alert({
-    type: "success",
-    text: "上传完成",
-  });
-};
+    type: 'success',
+    text: '上传完成',
+  })
+}
 
-const DelPictrue = (i: number, j: number) => {
-  bug_list.value[i].pictrue_list.splice(j, 1);
-  updateBug();
-};
+const DelImage = (i: number, j: number) => {
+  let pic = bug_list.value[i].image_list[j]
+  bug_list.value[i].image_list.splice(j, 1)
+  let filename = pic.url.split('/')[pic.url.split('/').length - 1]
+  updateBug()
+  DeleteImage(filename, pic.sha)
+}
+
+const DeleteImage = (filename, sha) => {
+  axios
+    .delete({
+      url: `/repos/${github_config.owner}/${github_config.repoPath}/contents/buglistImages/${filename}`,
+      data: {
+        message: 'delete a image by buglist',
+        sha: sha,
+      },
+    })
+    .then(() => {
+      Alert({
+        type: 'success',
+        text: '删除成功',
+      })
+    })
+}
+
+const DelBug = (i: number) => {
+  bug_list.value.splice(i, 1)
+  updateBug()
+}
 </script>
 
 <template>
@@ -201,12 +232,12 @@ const DelPictrue = (i: number, j: number) => {
         <div class="header">
           <div class="title">
             {{
-              active_type == ""
-                ? "全部"
+              active_type == ''
+                ? '全部'
                 : bug_option.find((e) => e.type == active_type).title
             }}
             <span class="total">{{
-              active_type == ""
+              active_type == ''
                 ? bug_list.length
                 : bug_list.filter((e) => e.type == active_type).length
             }}</span>
@@ -238,11 +269,26 @@ const DelPictrue = (i: number, j: number) => {
           v-show="active_type == '' ? true : bug.type == active_type"
         >
           <div class="left">
+            <span @click.stop="DelBug(i)" class="del-btn-bug"
+              ><svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="css-i6dzq1"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="8" y1="12" x2="16" y2="12"></line></svg
+            ></span>
             <div class="bug-title">
               <lew-select
                 v-model="bug.type"
                 :option="bug_option"
-                label="type"
+                label="title"
                 value="type"
               ></lew-select>
             </div>
@@ -261,11 +307,11 @@ const DelPictrue = (i: number, j: number) => {
             :class="{ 'upload-loading': upload_loading[i] }"
           >
             <div
-              v-for="(pic, j) in bug.pictrue_list"
+              v-for="(pic, j) in bug.image_list"
               :key="`pic${j}`"
               class="img-box"
             >
-              <span @click.stop="DelPictrue(i, j)" class="del-btn"
+              <span @click.stop="DelImage(i, j)" class="del-btn-image"
                 ><svg
                   viewBox="0 0 24 24"
                   width="24"
@@ -280,12 +326,12 @@ const DelPictrue = (i: number, j: number) => {
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="8" y1="12" x2="16" y2="12"></line></svg
               ></span>
-              <a :href="pic" data-fancybox="gallery">
-                <img loading="lazy" :src="pic" alt="" srcset=""
+              <a :href="pic.url" data-fancybox="gallery">
+                <img loading="lazy" :src="pic.url" alt="" srcset=""
               /></a>
             </div>
 
-            <div v-if="bug.pictrue_list.length == 0" class="not-pictrue">
+            <div v-if="bug.image_list?.length == 0" class="not-image">
               粘贴图片到此处上传
             </div>
           </div>
@@ -348,6 +394,7 @@ const DelPictrue = (i: number, j: number) => {
       }
 
       .item {
+        position: relative;
         display: flex;
         padding: 25px;
         box-sizing: border-box;
@@ -356,7 +403,16 @@ const DelPictrue = (i: number, j: number) => {
         border-radius: calc(var(--border-radius) * 0.85);
         margin-bottom: 20px;
         overflow: hidden;
-
+        .del-btn-bug {
+          position: absolute;
+          z-index: 9;
+          right: 5px;
+          top: 5px;
+          opacity: 0;
+          cursor: pointer;
+          color: rgb(179, 38, 38);
+          transition: all 0.25s;
+        }
         .left {
           width: 50% !important;
           width: 345px;
@@ -374,7 +430,7 @@ const DelPictrue = (i: number, j: number) => {
           box-sizing: border-box;
           overflow-x: auto;
           border: 1px var(--background-3) solid;
-          .not-pictrue {
+          .not-image {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -383,21 +439,22 @@ const DelPictrue = (i: number, j: number) => {
             width: 100%;
             height: 100%;
           }
+          .del-btn-image {
+            position: absolute;
+            z-index: 9;
+            right: 15px;
+            top: 5px;
+            opacity: 0;
+            color: rgb(179, 38, 38);
+            cursor: pointer;
+            transition: all 0.25s;
+          }
           .img-box {
             position: relative;
             user-select: none;
-            .del-btn {
-              position: absolute;
-              z-index: 9;
-              right: 15px;
-              top: 5px;
-              opacity: 0;
-              cursor: pointer;
-              transition: all 0.25s;
-            }
           }
           .img-box:hover {
-            .del-btn {
+            .del-btn-image {
               opacity: 1;
             }
           }
@@ -416,7 +473,7 @@ const DelPictrue = (i: number, j: number) => {
           position: absolute;
           top: 50%;
           left: 50%;
-          content: "";
+          content: '';
           border: 4px solid rgba(194, 194, 194, 0.4);
           border-left-color: var(--primary-color);
           border-radius: 50%;
@@ -458,6 +515,11 @@ const DelPictrue = (i: number, j: number) => {
       }
       .bug-pref {
         box-shadow: 0px 8px 0px -5px rgb(93, 102, 118);
+      }
+    }
+    .item:hover {
+      .del-btn-bug {
+        opacity: 1;
       }
     }
   }
