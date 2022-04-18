@@ -5,7 +5,7 @@ import { Alert } from "./alert";
 /**
  * 人性化时间处理 传入国际时间格式
  */
-function GetBeautifyTime(date) {
+function GetBeautifyTime(date: Date) {
   var newdate = Moment(date).format("yyyy-MM-DD HH:mm:ss");
   var timestamp = new Date(newdate).getTime();
   var mistiming = Math.round(new Date().getTime() / 1000) - timestamp / 1000;
@@ -25,7 +25,7 @@ function GetBeautifyTime(date) {
 /**
  * 人性化时间处理 传入国际时间格式
  */
-function GetDate(date) {
+function GetDate(date: Date) {
   return Moment(date).format("yyyy年MM月DD日 HH:mm:ss");
 }
 
@@ -33,7 +33,7 @@ function GetDate(date) {
  * 得到文件的扩展名
  * @param {} filename
  */
-function GetFileExt(filename) {
+function GetFileExt(filename: string) {
   var d = /\.[^\.]+$/.exec(filename);
   var ext = new String(d);
   var s = ext.toLowerCase();
@@ -69,7 +69,7 @@ function GetNowTimeNum() {
   return year + month + day + hourStr + minutesStr + secondsStr;
 }
 
-function GetFileSize(size) {
+function GetFileSize(size: number) {
   //把字节转换成正常文件大小
   if (!size) return "";
   var num = 1024.0; //byte
@@ -81,8 +81,8 @@ function GetFileSize(size) {
     return (size / Math.pow(num, 3)).toFixed(2) + " G"; //G
   return (size / Math.pow(num, 4)).toFixed(2) + " T"; //T
 }
- 
-function FormatZhByMessage(text) {
+
+function FormatZhByMessage(text: string) {
   switch (true) {
     case text == "Bad credentials": {
       return "access token 错误";

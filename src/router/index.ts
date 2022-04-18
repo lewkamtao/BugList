@@ -55,7 +55,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/404",
-    name: NotFound,
+    name: "NotFound",
     component: NotFound,
     meta: {},
   },

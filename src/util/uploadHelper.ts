@@ -6,7 +6,7 @@ import {
 } from "@yireen/squoosh-browser/dist/client/lazy-app/feature-meta";
 
 // type可选 mozJPEG / avif / webP
-const uploadHelper = (file) => {
+const uploadHelper = (file: File) => {
   return new Promise(async (resolve) => {
     const compress = new Compress(file, {
       encoderState: {
@@ -34,7 +34,7 @@ const uploadHelper = (file) => {
  * 上传附件转base64
  * @param {File} file 文件流
  */
-const fileByBase64 = (file) => {
+const fileByBase64 = (file: File) => {
   return new Promise(async (resolve) => {
     var reader = new FileReader();
     // 传入一个参数对象即可得到基于该参数对象的文本内容
@@ -50,7 +50,7 @@ const fileByBase64 = (file) => {
  * 获取文件扩展名
  * @param {String} filename 文件流
  */
-function getFileExtendingName(filename) {
+function getFileExtendingName(filename: string) {
   // 文件扩展名匹配正则
   var reg = /\.[^\.]+$/;
   var matches = reg.exec(filename);
@@ -60,7 +60,7 @@ function getFileExtendingName(filename) {
   return "";
 }
 
-function createHash(hashLength) {
+function createHash(hashLength: number) {
   // 默认长度 24
   return Array.from(Array(Number(hashLength) || 24), () =>
     Math.floor(Math.random() * 36).toString(36)

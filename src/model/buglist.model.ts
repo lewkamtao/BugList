@@ -3,7 +3,7 @@ export interface Bug {
   create_time: string;
   update_time: string;
   type: string;
-  pictrue_list: Array;
+  pictrue_list: Array<string>;
 }
 
 export const BugOptions = [

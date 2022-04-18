@@ -32,13 +32,13 @@ const props = defineProps({
 let bug_option: any = ref(BugOptions);
 const { bug_group } = toRefs(props);
 
-const changeBugType = (e) => {
+const changeBugType = (e: any) => {
   router.push(
     `/${github_config.value.repoId}${e.type == "all" ? "" : "/" + e.type}`
   );
 };
 
-let contributors = ref([]);
+let contributors = ref([] as any);
 
 const GetContributors = () => {
   axios

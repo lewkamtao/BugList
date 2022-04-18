@@ -18,7 +18,8 @@ let github_config: GithubConfig = JSON.parse(
 
 const route = useRoute();
 let bug_list = ref<Bug[]>([] as any);
-let bug_option = ref(BugOptions);
+let bug_option = ref();
+bug_option.value = BugOptions;
 let active_type: any = ref("");
 let upload_loading = ref<boolean[]>([]);
 
@@ -117,7 +118,7 @@ const updateBug = () => {
 // 监听粘贴操作
 const PasteUpload = (e: any, i: number) => {
   const items = e.clipboardData.items; //  获取剪贴板中的数据
-  let files = [];
+  let files = [] as any;
   if (items.length > 0) {
     //  判断剪贴板中是否是文件
     for (let file of items) {
