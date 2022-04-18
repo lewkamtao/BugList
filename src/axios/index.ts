@@ -1,4 +1,5 @@
 import { FormatZhByMessage } from "../util/util";
+import { Alert } from "../util/alert";
 
 import axios from "axios";
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
@@ -17,7 +18,7 @@ class xwlRequest {
         let token = localStorage.getItem("token");
         if (token) {
           config.headers = {
-            Authorization: `token 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`,
+            Authorization: `token ${token}`,
           };
         }
         return config;
@@ -36,6 +37,10 @@ class xwlRequest {
       },
       (error) => {
         if (error.response.data.message != "Not Found") {
+          Alert({
+            type: "danger",
+            text: FormatZhByMessage(error.response.data.message),
+          });
         }
         //响应失败的拦截
         return Promise.reject(error);

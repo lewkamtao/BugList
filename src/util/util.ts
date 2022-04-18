@@ -1,6 +1,5 @@
 import Moment from "moment";
 import axios from "axios";
-import Clipboard from "clipboard";
 import { Alert } from "./alert";
 
 /**
@@ -82,27 +81,7 @@ function GetFileSize(size) {
     return (size / Math.pow(num, 3)).toFixed(2) + " G"; //G
   return (size / Math.pow(num, 4)).toFixed(2) + " T"; //T
 }
-
-function CopyText() {
-  var clipboard = new Clipboard(".copy-btn");
-  clipboard.on("success", (e) => {
-    // 复制成功消息通知
-    Alert({
-      type: "success",
-      text: "复制成功！",
-    });
-    clipboard.destroy();
-  });
-  clipboard.on("error", (e) => {
-    // 复制失败消息通知
-    Alert({
-      type: "danger",
-      text: "复制失败！",
-    });
-    clipboard.destroy();
-  });
-}
-
+ 
 function FormatZhByMessage(text) {
   switch (true) {
     case text == "Bad credentials": {
@@ -128,13 +107,11 @@ function FormatZhByMessage(text) {
   }
 }
 
-
 export {
   GetBeautifyTime,
   GetFileExt,
   GetNowTimeNum,
   GetDate,
   GetFileSize,
-  CopyText,
   FormatZhByMessage,
 };
