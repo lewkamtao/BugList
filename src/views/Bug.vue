@@ -288,6 +288,7 @@ const DelBug = (i: number) => {
               <lew-select
                 v-model="bug.type"
                 :option="bug_option"
+                @change="updateBug"
                 label="title"
                 value="type"
               ></lew-select>
