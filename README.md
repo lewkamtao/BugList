@@ -1,9 +1,4 @@
-<div align="center">
-基于 [Vue3](https://vuejs.org/) + [Github API](https://docs.github.com/cn/rest/reference/repos#contents) 实现一个Bug收集工具
 
-
-[前往在线地址](https://buglist.tngeek.com)
-</div>
 <img src="https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/0c4ac47a5c72bd3461413f3beab56c9_macbookpro15_front_t6dg4i_.png"  />   
 
 [![HitCount](https://hits.dwyl.com/lewkamtao/PicHub.svg?style=flat-square)](http://hits.dwyl.com/lewkamtao/PicHub)
