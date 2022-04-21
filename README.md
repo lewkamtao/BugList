@@ -1,4 +1,4 @@
-<img src="https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/0c4ac47a5c72bd3461413f3beab56c9_macbookpro15_front_t6dg4i_.png"  />   
+<img src=" https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/image_7al8av_.jpeg"  />   
 
 ## 简介
 
