@@ -1,5 +1,3 @@
-<img src="https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/image_7al8av_.jpeg"  />   
-
 ## 简介
 
 这绝对是一个非常有趣的项目
