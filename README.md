@@ -1,4 +1,4 @@
-<img src=" https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/image_7al8av_.jpeg"  />   
+<img src="https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/image_7al8av_.jpeg"  />   
 
 ## 简介
 
