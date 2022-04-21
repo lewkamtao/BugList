@@ -1,7 +1,4 @@
-
 <img src="https://cdn.jsdelivr.net/gh/lewkamtao/PicHub-Cloud@master/buglistImages/0c4ac47a5c72bd3461413f3beab56c9_macbookpro15_front_t6dg4i_.png"  />   
-
-[![HitCount](https://hits.dwyl.com/lewkamtao/PicHub.svg?style=flat-square)](http://hits.dwyl.com/lewkamtao/PicHub)
 
 ## 简介
 
